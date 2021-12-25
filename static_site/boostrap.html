@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src='https://cdn.plot.ly/plotly-2.6.3.min.js'></script>
+    <title>Hello, world!</title>
+  </head>
+  <body>
+    <h1>Hello, world!</h1>
+
+    <div class="container">
+        <div class="row">
+          <div class="col">
+            <div id='myDiv'></div>
+          </div>
+          <div class="col">
+            <div id='pie1'></div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <div class="input-group">
+                <select class="form-select" id="inputGroupSelect04" aria-label="Example select with button addon">
+                  <option selected>Choose...</option>
+                  <option value="1">One</option>
+                  <option value="2">Two</option>
+                  <option value="3">Three</option>
+                </select>
+                <button class="btn btn-outline-secondary" type="button">Button</button>
+              </div>
+            <div id='subplots'></div>
+          </div>
+        </div>
+      </div>
+
+
+
+    <!-- Optional JavaScript; choose one of the two! -->
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <!-- Option 2: Separate Popper and Bootstrap JS -->
+    <!--
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+    -->
+
+    <script>
+        var trace1 = {
+            type: 'bar',
+            x: [1, 2, 3, 4],
+            y: [5, 10, 2, 8],
+            marker: {
+                color: '#C8A2C8',
+                line: {
+                    width: 2.5
+                }
+            }
+          };
+          
+          var data = [ trace1 ];
+          
+          var layout = { 
+            title: 'Fix to resize!',
+            font: {size: 18}
+          };
+          
+          var config = {responsive: true}
+          
+          Plotly.newPlot('myDiv', data, layout, config );
+          //Plotly.newPlot('myDiv', data, layout); //no responsive
+    
+
+        var data = [
+            {
+                type: "pie",
+                values: [2, 5, 3, 2.5],
+                labels: ["R", "Python", "Java Script", "Matlab"],
+                texttemplate: "%{label}: %{value} (%{percent})",
+                textposition: "inside"
+            }
+        ];
+
+        Plotly.newPlot("pie1", data, config)
+
+
+        var trace1 = {
+        x: [0, 1, 2],
+        y: [10, 11, 12],
+        type: 'scatter'
+        };
+
+        var trace2 = {
+        x: [2, 3, 4],
+        y: [100, 110, 120],
+        xaxis: 'x2',
+        yaxis: 'y2',
+        type: 'scatter'
+        };
+
+        var trace3 = {
+        x: [3, 4, 5],
+        y: [1000, 1100, 1200],
+        xaxis: 'x3',
+        yaxis: 'y3',
+        type: 'scatter'
+        };
+
+        var data = [trace1, trace2, trace3];
+
+        var layout = {
+        grid: {
+            rows: 3,
+            columns: 1,
+            pattern: 'independent',
+            roworder: 'bottom to top'}
+        };
+
+        Plotly.newPlot('subplots', data, layout, config);
+
+
+
+
+    </script>
+
+
+  </body>
+</html>
