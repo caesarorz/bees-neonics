@@ -65,7 +65,7 @@ Plotly.newPlot('line-subplots', data, layout, config);
 
 
 
-fetch('https://raw.githubusercontent.com/caesarorz/bees-neonics/main/static_site/df.js')
+fetch('https://raw.githubusercontent.com/caesarorz/bees-neonics/main/data/dataset.json')
   .then(response => response.json())
   .then(data => console.log(data))
   .catch(error => console.log(error));
