@@ -64,19 +64,13 @@ var config = {responsive: true}
 Plotly.newPlot('line-subplots', data, layout, config);
 
 
-/**      */
-// fetch('./js/df.json')
-//   .then(response => response.json())
-//   .then(data => console.log(data))
-//   .catch(error => console.log(error));
+
+fetch('https://raw.githubusercontent.com/caesarorz/bees-neonics/main/static_site/df.js')
+  .then(response => response.json())
+  .then(data => console.log(data))
+  .catch(error => console.log(error));
 
 
-
-// const jsonData= require('./js/df.json'); 
-// console.log(jsonData);
-
-var mydata = dataframe
-console.log(mydata)
 // alert(mydata[0].name);
 // alert(mydata[0].age);
 // alert(mydata[1].name);
