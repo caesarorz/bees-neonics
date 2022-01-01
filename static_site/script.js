@@ -1,3 +1,12 @@
+// fetch('https://raw.githubusercontent.com/caesarorz/bees-neonics/main/data/dataset.json')
+//   .then(response => response.json())
+//   .then(data => console.log(data))
+//   .catch(error => console.log(error));
+
+
+
+
+  
 df = {"columns": ["numcol", "prod", "neoc"], 
     "index": [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017], 
     "data": [
@@ -62,19 +71,6 @@ var layout = {
 var config = {responsive: true}
 
 Plotly.newPlot('line-subplots', data, layout, config);
-
-
-
-fetch('https://raw.githubusercontent.com/caesarorz/bees-neonics/main/data/dataset.json')
-  .then(response => response.json())
-  .then(data => console.log(data))
-  .catch(error => console.log(error));
-
-
-// alert(mydata[0].name);
-// alert(mydata[0].age);
-// alert(mydata[1].name);
-// alert(mydata[1].age);
 
 
 
@@ -148,3 +144,31 @@ var data = [{
   
   Plotly.newPlot('piehole-subplot', data, layout, config);
   
+
+
+
+  
+  const data_ = (Ana1, Ana2, Ana3) => { 
+    comingData = [Ana1, Ana2, Ana3]
+    outputs = []
+    comingData.forEach(el => {
+      var trace = {
+        x: xAxis,
+        y: el,
+        type: 'scatter',
+        name: 'Ana 2'
+      };
+      outputs.push(trace)
+
+    })
+    return outputs;
+  };
+
+  xAxis = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+  Ana1 =  [0, 2, 3, 5, 20, 35, 78, 100, 110, 130, 135, 140, 145]
+  Ana2 = [0, 2, 3, 5, 55, 101, 150, 210, 300, 330, 335, 340, 345]
+  Ana3 = [0, 2, 3, 5, 8, 70, 150, 210, 340, 430, 435, 440, 445]
+
+
+
+  Plotly.newPlot('multi-lineplot', data_(Ana1, Ana2, Ana3));
