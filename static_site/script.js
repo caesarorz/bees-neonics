@@ -1,6 +1,6 @@
 // fetch('https://raw.githubusercontent.com/caesarorz/bees-neonics/main/data/dataset.json')
 //   .then(response => response.json())
-//   .then(data => console.log(data))
+//   .then(columns => console.log(columns))
 //   .catch(error => console.log(error));
 
 
@@ -144,6 +144,12 @@ var data = [{
   
   Plotly.newPlot('piehole-subplot', data, layout, config);
   
+
+// {'region': f'{region}', 'neonic': f'{neo}', 'states_metrics': [], 'years': f'{years}'}
+fetch('https://raw.githubusercontent.com/caesarorz/bees-neonics/main/dataset.json')
+  .then(response => response.json())
+  .then(data => console.log(data))
+  .catch(error => console.log(error));
 
 
 
