@@ -176,3 +176,10 @@ fetch(url)
     })
     return outputs
   };
+
+
+  region = document.getElementById('filter-region')
+  var option = document.createElement("OPTION");                 // Create a <li> node
+  var textnode = document.createTextNode("Water");         // Create a text node
+  option.appendChild(textnode);                              // Append the text to <li>
+  region.appendChild(option);     // Append <li> to <ul> with id="myList"
