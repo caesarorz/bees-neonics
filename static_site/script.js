@@ -145,7 +145,7 @@ var data = [{
   Plotly.newPlot('piehole-subplot', data, layout, config);
   
 
-url = 'https://raw.githubusercontent.com/caesarorz/bees-neonics/main/data/dataset1.json'
+url = 'https://raw.githubusercontent.com/caesarorz/bees-neonics/main/data/dataset.json'
 
 fetch(url)
   .then((response) => {
@@ -153,14 +153,15 @@ fetch(url)
   })
   .then(data => {
     data = JSON.parse(data)
-    console.log(data)
-    states_metrics = data.states_metrics
-    states = data.states
-    years = data.years
 
-    plotRegionNeonic(states_metrics, years)
-    Plotly.newPlot('multi-lineplot', plotRegionNeonic(states_metrics, years));
-  })
+    // linear plot by region
+    Plotly.newPlot('multi-lineplot', plotRegionNeonic(data.states_metrics, JSON.parse(data.years)), renderLayout(), {responsive: true});
+
+    console.log(data)
+
+    populateFilteredRegion(data.all_regions)
+    populateFilteredNeonic(data.neonics)
+})
 
 
   const plotRegionNeonic = (states_metrics, years) => { 
@@ -177,9 +178,40 @@ fetch(url)
     return outputs
   };
 
+  const renderLayout = (title) => {
+    var layout = {
+      //showlegend: false,
+      title: 'Global Emissions 1990-2011',
+      xaxis: {
+        title: 'GDP per Capita',
+        showgrid: false,
+        zeroline: false
+      },
+      yaxis: {
+        title: 'Percent',
+        showline: false
+      }
+    };
+    return layout
+  }
 
-  region = document.getElementById('filter-region')
-  var option = document.createElement("OPTION");                 // Create a <li> node
-  var textnode = document.createTextNode("Water");         // Create a text node
-  option.appendChild(textnode);                              // Append the text to <li>
-  region.appendChild(option);     // Append <li> to <ul> with id="myList"
+  const populateFilteredRegion = (allregions) => {
+    region = document.getElementById('filter-region') // 
+    allregions.forEach(el => {
+      var option = document.createElement("OPTION");  // Create a <OPTION> node
+      var textnode = document.createTextNode(el); // Create a text node
+      option.appendChild(textnode);  // Append the text to <li>
+      region.appendChild(option);  // Append <li> to <ul> with id="myList"
+    })
+  }
+
+
+  const populateFilteredNeonic = (allneonics) => {
+    neonics = document.getElementById('filter-neonic') // filter-neonic
+    allneonics.forEach(el => {
+      var option = document.createElement("OPTION");  // Create a <OPTION> node
+      var textnode = document.createTextNode(el); // Create a text node
+      option.appendChild(textnode);  // Append the text to <li>
+      neonics.appendChild(option);  // Append <li> to <ul> with id="myList"
+    })
+  }
