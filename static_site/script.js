@@ -154,16 +154,18 @@ fetch('https://raw.githubusercontent.com/caesarorz/bees-neonics/main/data/datase
   .then(data => {
     data = JSON.parse(data)
     console.log(data)
-    states = data.states_metrics
+    states_metrics = data.states_metrics
+    states = data.states
     years = data.years
 
-    plotRegionNeonic(states, years)
+    plotRegionNeonic(states_metrics, states, years)
   })
 
 
-  const plotRegionNeonic = (states, years) => { 
-    states.forEach(el => {
-      console.log(el[0])
+  const plotRegionNeonic = (states_metrics, states, years) => { 
+    states_metrics.forEach(el => {
+      state, metrics = el
+      console.log(state, metrics)
     })
     console.log(years)
   };
