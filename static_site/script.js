@@ -145,10 +145,10 @@ var data = [{
   Plotly.newPlot('piehole-subplot', data, layout, config);
   
 
-// {'region': f'{region}', 'neonic': f'{neo}', 'states_metrics': [], 'years': f'{years}'}
-fetch('https://raw.githubusercontent.com/caesarorz/bees-neonics/main/data/dataset1.json')
+url = 'https://raw.githubusercontent.com/caesarorz/bees-neonics/main/data/dataset1.json'
+
+fetch(url)
   .then((response) => {
-    console.log(response)
     return response.json();
   })
   .then(data => {
@@ -158,40 +158,21 @@ fetch('https://raw.githubusercontent.com/caesarorz/bees-neonics/main/data/datase
     states = data.states
     years = data.years
 
-    plotRegionNeonic(states_metrics, states, years)
+    plotRegionNeonic(states_metrics, years)
+    Plotly.newPlot('multi-lineplot', plotRegionNeonic(states_metrics, years));
   })
 
 
-  const plotRegionNeonic = (states_metrics, states, years) => { 
-    states_metrics.forEach(el => {
-      state, metrics = el
-      console.log(state, metrics)
-    })
-    console.log(years)
-  };
-
-  
-  const data_ = (Ana1, Ana2, Ana3) => { 
-    comingData = [Ana1, Ana2, Ana3]
+  const plotRegionNeonic = (states_metrics, years) => { 
     outputs = []
-    comingData.forEach(el => {
+    states_metrics.forEach(el => {
       var trace = {
-        x: xAxis,
-        y: el,
+        x: years,
+        y: el.metrics,
         type: 'scatter',
-        name: 'Ana 2'
+        name: el.state
       };
       outputs.push(trace)
-
     })
-    return outputs;
+    return outputs
   };
-
-  xAxis = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
-  Ana1 =  [0, 2, 3, 5, 20, 35, 78, 100, 110, 130, 135, 140, 145]
-  Ana2 = [0, 2, 3, 5, 55, 101, 150, 210, 300, 330, 335, 340, 345]
-  Ana3 = [0, 2, 3, 5, 8, 70, 150, 210, 340, 430, 435, 440, 445]
-
-
-
-  Plotly.newPlot('multi-lineplot', data_(Ana1, Ana2, Ana3));
