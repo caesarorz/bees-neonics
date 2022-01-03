@@ -8,13 +8,14 @@ fetch(url)
   })
   .then(data => {
     data = JSON.parse(data)
+    console.log(data.all_states)
 
     populateFilteredRegion(data.all_regions)
     populateFilteredNeonic(data.neonics)
+    //populateFilteredState()
 
     neonic=document.getElementById('filter-neonic').value
     region=document.getElementById('filter-region').value
-    console.log(region, neonic)
     Plotly.newPlot('multi-lineplot', plotRegionNeonic(data.states_metrics, JSON.parse(data.years)), renderLayout(region, neonic), {responsive: true});
 })
 
@@ -71,6 +72,15 @@ fetch(url)
       option.appendChild(textnode);  // Append the text to <li>
       neonics.appendChild(option);  // Append <li> to <ul> with id="myList"
     })
+
+    neonics = document.getElementById('filter-neonic-state') // filter-neonic-state
+    allneonics.forEach(el => {
+      var option = document.createElement("OPTION");  // Create a <OPTION> node
+      var textnode = document.createTextNode(el); // Create a text node
+      option.appendChild(textnode);  // Append the text to <li>
+      neonics.appendChild(option);  // Append <li> to <ul> with id="myList"
+    })
+
   }
 
 const regionDynamicPlot = (region='West', neonic='nAllNeonic') => {
@@ -100,6 +110,8 @@ document.getElementById('filter-neonic').addEventListener("change", function(e){
   region=document.getElementById('filter-region').value
   regionDynamicPlot(region=region, neonic=e.target.value)
 });
+
+
 
 
 
