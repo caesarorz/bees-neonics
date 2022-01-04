@@ -17,7 +17,6 @@ fetch(url)
     populateFilteredNeonic()
     populateFilteredState()
 
-    //plotRegionNeonic()
     Plotly.newPlot('multi-lineplot', plotRegionNeonic(), renderLayout(), {responsive: true});
 })
 
@@ -36,7 +35,6 @@ fetch(url)
     state.neonics_metrics.forEach(el => {
       if (state.select_region_id === el.region & state.select_region_neonic_id === el.neonic) {
         el.states_metrics.forEach(state_metric => {
-          console.log(state_metric.metrics, state_metric.state)
           var trace = {
             x: state.years,
             y: state_metric.metrics,
@@ -98,35 +96,15 @@ fetch(url)
   }
 
 
-const regionDynamicPlot = (region='West', neonic='nAllNeonic') => {
-  url2 = 'https://raw.githubusercontent.com/caesarorz/bees-neonics/main/data/dataset0.json'
-  fetch(url2)
-  .then((response) => {
-    return response.json();
-  })
-  .then(data => {
-    data = JSON.parse(data)
-    data.all_metrics.forEach(el => {
-      if (region === el['region'] & neonic == el['neonic']){
-        //Plotly.newPlot('multi-lineplot', plotRegionNeonic(el['states_metrics'], data.years[0]), renderLayout(region, neonic), {responsive: true});
-      }
-    })
-  })
-} 
+  document.getElementById('filter-region').addEventListener("change", function(e){
+    state.select_region_id = e.target.value
+    Plotly.newPlot('multi-lineplot', plotRegionNeonic(), renderLayout(), {responsive: true});
+  });
 
-
-document.getElementById('filter-region').addEventListener("change", function(e){
-  neonic=document.getElementById('filter-neonic').value
-  regionDynamicPlot(region=e.target.value, neonic=neonic)
-});
-
-
-document.getElementById('filter-neonic').addEventListener("change", function(e){
-  region=document.getElementById('filter-region').value
-  regionDynamicPlot(region=region, neonic=e.target.value)
-});
-
-
+  document.getElementById('filter-neonic').addEventListener("change", function(e){
+    state.select_region_neonic_id = e.target.value
+    Plotly.newPlot('multi-lineplot', plotRegionNeonic(), renderLayout(), {responsive: true});
+  });
 
 
 
