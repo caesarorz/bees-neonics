@@ -17,7 +17,8 @@ fetch(url)
     populateFilteredNeonic()
     populateFilteredState()
 
-    Plotly.newPlot('multi-lineplot', plotRegionNeonic(), renderLayout(region, neonic), {responsive: true});
+    //plotRegionNeonic()
+    Plotly.newPlot('multi-lineplot', plotRegionNeonic(), renderLayout(), {responsive: true});
 })
 
   const storeDataAPI = (data) => {
@@ -32,26 +33,27 @@ fetch(url)
 
   const plotRegionNeonic = () => {
     outputs = []
-    states_metrics.forEach(el => {
-      if (el.region === region & el.neonic === neonic) {
-        console.log(el.region, el.neonic)
-        var trace = {
-          x: years[0],
-          y: el.metrics,
-          type: 'scatter',
-          name: el.states_metrics.state
-        };
-        outputs.push(trace)
+    state.neonics_metrics.forEach(el => {
+      if (state.select_region_id === el.region & state.select_region_neonic_id === el.neonic) {
+        el.states_metrics.forEach(state_metric => {
+          console.log(state_metric.metrics, state_metric.state)
+          var trace = {
+            x: state.years,
+            y: state_metric.metrics,
+            type: 'scatter',
+            name: state_metric.state
+          };
+          outputs.push(trace)
+        })
       }
     })
     return outputs
   };
 
-  const renderLayout = (region='West', neonic='nAllNeonic') => {
-
+  const renderLayout = () => {
     var layout = {
       //showlegend: false,
-      title: `${region} Region for ${neonic}`,
+      title: `${state.select_region_id} Region for ${state.select_region_neonic_id}`,
       xaxis: {
         title: 'Years',
         showgrid: false,
@@ -68,13 +70,17 @@ fetch(url)
   const populateFilteredRegion = () => {
     region_id = document.getElementById('filter-region')
     populateSelectElement(region_id, state.regions)
+    state.select_region_id = document.getElementById('filter-region').value
   }
 
   const populateFilteredNeonic = () => {
     neonics_region_id = document.getElementById('filter-neonic') 
     populateSelectElement(neonics_region_id, state.neonics)
+    state.select_region_neonic_id = document.getElementById('filter-neonic').value
+
     neonics_state_id = document.getElementById('filter-neonic-state') 
     populateSelectElement(neonics_state_id, state.neonics)
+    state.select_neonics_state_id= document.getElementById('filter-neonic-state').value
   }
 
   populateFilteredState = () => {
