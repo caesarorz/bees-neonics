@@ -18,6 +18,7 @@ fetch(url)
     populateFilteredState()
 
     Plotly.newPlot('multi-lineplot', plotRegionNeonic(), renderLayout(), {responsive: true});
+
 })
 
   const storeDataAPI = (data) => {
@@ -131,6 +132,12 @@ var trace3 = {
 };
 
 var data = [trace1, trace2, trace3];
+
+
+  const plotStateNeonic = () => {
+    console.log(state.years)
+  }
+
 
 var layout = {
 grid: {
