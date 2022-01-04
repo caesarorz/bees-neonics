@@ -11,19 +11,16 @@ fetch(url)
   .then(data => {
     data = JSON.parse(data)
 
-    storeData(data) // store data locally 
+    storeDataAPI(data) // store data locally 
 
     populateFilteredRegion()
     populateFilteredNeonic()
     populateFilteredState()
 
-    //neonic=document.getElementById('filter-neonic').value
-    //document.getElementById('filter-region').value
-
-    //Plotly.newPlot('multi-lineplot', plotRegionNeonic(data.all_metrics, data.years, region, neonic), renderLayout(region, neonic), {responsive: true});
+    Plotly.newPlot('multi-lineplot', plotRegionNeonic(), renderLayout(region, neonic), {responsive: true});
 })
 
-  const storeData = (data) => {
+  const storeDataAPI = (data) => {
     state.neonics = data.all_neonics[0]
     state.regions = data.all_regions[0]
     state.states = data.all_states[0]
@@ -32,9 +29,8 @@ fetch(url)
 
   }
 
-  const plotRegionNeonic = (states_metrics, years, region, neonic) => {
-    //console.log(states_metrics)
-    //console.log(years)
+
+  const plotRegionNeonic = () => {
     outputs = []
     states_metrics.forEach(el => {
       if (el.region === region & el.neonic === neonic) {
@@ -70,40 +66,28 @@ fetch(url)
   }
 
   const populateFilteredRegion = () => {
-    region = document.getElementById('filter-region') // 
-    state.regions.forEach(el => {
-      var option = document.createElement("OPTION");  // Create a <OPTION> node
-      var textnode = document.createTextNode(el); // Create a text node
-      option.appendChild(textnode);  // Append the text to <li>
-      region.appendChild(option);  // Append <li> to <ul> with id="myList"
-    })
+    region_id = document.getElementById('filter-region')
+    populateSelectElement(region_id, state.regions)
   }
 
   const populateFilteredNeonic = () => {
-    neonics_region = document.getElementById('filter-neonic') // filter-neonic
-    state.neonics.forEach(el => {
-      var option = document.createElement("OPTION");  // Create a <OPTION> node
-      var textnode = document.createTextNode(el); // Create a text node
-      option.appendChild(textnode);  // Append the text to <li>
-      neonics_region.appendChild(option)
-    })
-    neonics_state = document.getElementById('filter-neonic-state') // filter-neonic-state
-    state.neonics.forEach(el => {
-      var option = document.createElement("OPTION");  
-      var textnode = document.createTextNode(el); 
-      option.appendChild(textnode);  
-      neonics_state.appendChild(option);  
-    })
+    neonics_region_id = document.getElementById('filter-neonic') 
+    populateSelectElement(neonics_region_id, state.neonics)
+    neonics_state_id = document.getElementById('filter-neonic-state') 
+    populateSelectElement(neonics_state_id, state.neonics)
   }
 
   populateFilteredState = () => {
-    console.log(state.states)
-    states_el = document.getElementById('filter-state')
-    state.states.forEach(el => {
+    states_id = document.getElementById('filter-state')
+    populateSelectElement(states_id, state.states)
+  }
+
+  populateSelectElement = (select_id, state_data) => {
+    state_data.forEach(el => {
       var option = document.createElement("OPTION");  
       var textnode = document.createTextNode(el); 
       option.appendChild(textnode);  
-      states_el.appendChild(option);  
+      select_id.appendChild(option);  
     })
   }
 
