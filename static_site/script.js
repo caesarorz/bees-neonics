@@ -1,4 +1,6 @@
-url = 'https://raw.githubusercontent.com/caesarorz/bees-neonics/main/data/dataset.json'
+state = {}
+
+url = 'https://raw.githubusercontent.com/caesarorz/bees-neonics/main/data/dataset0.json'
 
 config = {response: true}
 
@@ -8,36 +10,49 @@ fetch(url)
   })
   .then(data => {
     data = JSON.parse(data)
-    console.log(data.all_states)
 
-    populateFilteredRegion(data.all_regions)
-    populateFilteredNeonic(data.neonics)
-    //populateFilteredState()
+    storeData(data) // store data locally 
 
-    neonic=document.getElementById('filter-neonic').value
-    region=document.getElementById('filter-region').value
-    Plotly.newPlot('multi-lineplot', plotRegionNeonic(data.states_metrics, JSON.parse(data.years)), renderLayout(region, neonic), {responsive: true});
+    populateFilteredRegion()
+    populateFilteredNeonic()
+    populateFilteredState()
+
+    //neonic=document.getElementById('filter-neonic').value
+    //document.getElementById('filter-region').value
+
+    //Plotly.newPlot('multi-lineplot', plotRegionNeonic(data.all_metrics, data.years, region, neonic), renderLayout(region, neonic), {responsive: true});
 })
 
+  const storeData = (data) => {
+    state.neonics = data.all_neonics[0]
+    state.regions = data.all_regions[0]
+    state.states = data.all_states[0]
+    state.years = data.years[0]
+    state.neonics_metrics = data.all_metrics
 
-  const plotRegionNeonic = (states_metrics, years) => {
-    // console.log(states_metrics)
-    // console.log(years)
+  }
+
+  const plotRegionNeonic = (states_metrics, years, region, neonic) => {
+    //console.log(states_metrics)
+    //console.log(years)
     outputs = []
     states_metrics.forEach(el => {
-      var trace = {
-        x: years,
-        y: el.metrics,
-        type: 'scatter',
-        name: el.state
-      };
-      outputs.push(trace)
+      if (el.region === region & el.neonic === neonic) {
+        console.log(el.region, el.neonic)
+        var trace = {
+          x: years[0],
+          y: el.metrics,
+          type: 'scatter',
+          name: el.states_metrics.state
+        };
+        outputs.push(trace)
+      }
     })
     return outputs
   };
 
   const renderLayout = (region='West', neonic='nAllNeonic') => {
-    console.log(region, neonic)
+
     var layout = {
       //showlegend: false,
       title: `${region} Region for ${neonic}`,
@@ -54,9 +69,9 @@ fetch(url)
     return layout
   }
 
-  const populateFilteredRegion = (allregions) => {
+  const populateFilteredRegion = () => {
     region = document.getElementById('filter-region') // 
-    allregions.forEach(el => {
+    state.regions.forEach(el => {
       var option = document.createElement("OPTION");  // Create a <OPTION> node
       var textnode = document.createTextNode(el); // Create a text node
       option.appendChild(textnode);  // Append the text to <li>
@@ -64,27 +79,37 @@ fetch(url)
     })
   }
 
-  const populateFilteredNeonic = (allneonics) => {
-    neonics = document.getElementById('filter-neonic') // filter-neonic
-    allneonics.forEach(el => {
+  const populateFilteredNeonic = () => {
+    neonics_region = document.getElementById('filter-neonic') // filter-neonic
+    state.neonics.forEach(el => {
       var option = document.createElement("OPTION");  // Create a <OPTION> node
       var textnode = document.createTextNode(el); // Create a text node
       option.appendChild(textnode);  // Append the text to <li>
-      neonics.appendChild(option);  // Append <li> to <ul> with id="myList"
+      neonics_region.appendChild(option)
     })
-
-    neonics = document.getElementById('filter-neonic-state') // filter-neonic-state
-    allneonics.forEach(el => {
-      var option = document.createElement("OPTION");  // Create a <OPTION> node
-      var textnode = document.createTextNode(el); // Create a text node
-      option.appendChild(textnode);  // Append the text to <li>
-      neonics.appendChild(option);  // Append <li> to <ul> with id="myList"
+    neonics_state = document.getElementById('filter-neonic-state') // filter-neonic-state
+    state.neonics.forEach(el => {
+      var option = document.createElement("OPTION");  
+      var textnode = document.createTextNode(el); 
+      option.appendChild(textnode);  
+      neonics_state.appendChild(option);  
     })
-
   }
 
+  populateFilteredState = () => {
+    console.log(state.states)
+    states_el = document.getElementById('filter-state')
+    state.states.forEach(el => {
+      var option = document.createElement("OPTION");  
+      var textnode = document.createTextNode(el); 
+      option.appendChild(textnode);  
+      states_el.appendChild(option);  
+    })
+  }
+
+
 const regionDynamicPlot = (region='West', neonic='nAllNeonic') => {
-  url2 = 'https://raw.githubusercontent.com/caesarorz/bees-neonics/main/data/dataset1.json'
+  url2 = 'https://raw.githubusercontent.com/caesarorz/bees-neonics/main/data/dataset0.json'
   fetch(url2)
   .then((response) => {
     return response.json();
@@ -93,7 +118,7 @@ const regionDynamicPlot = (region='West', neonic='nAllNeonic') => {
     data = JSON.parse(data)
     data.all_metrics.forEach(el => {
       if (region === el['region'] & neonic == el['neonic']){
-        Plotly.newPlot('multi-lineplot', plotRegionNeonic(el['states_metrics'], data.years[0]), renderLayout(region, neonic), {responsive: true});
+        //Plotly.newPlot('multi-lineplot', plotRegionNeonic(el['states_metrics'], data.years[0]), renderLayout(region, neonic), {responsive: true});
       }
     })
   })
