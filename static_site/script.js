@@ -19,6 +19,11 @@ fetch(url)
 
     Plotly.newPlot('multi-lineplot', plotRegionNeonic(), renderLayout(), {responsive: true});
 
+    //plotStateScatters()
+    renderLayoutStateScatters()
+    Plotly.newPlot('multi-line-state', plotStateScatters(), renderLayoutStateScatters(), {responsive: true}); //Plotly.newPlot('multi-line-state', data, layout);
+    
+
 })
 
   const storeDataAPI = (data) => {
@@ -27,7 +32,11 @@ fetch(url)
     state.states = data.all_states[0]
     state.years = data.years[0]
     state.neonics_metrics = data.all_metrics
-
+    state.numcol = data.numcol
+    state.priceperlb = data.priceperlb
+    state.prodvalue = data.prodvalue
+    state.totalprod = data.totalprod
+    state.yieldpercol = data.yieldpercol
   }
 
 
@@ -69,22 +78,23 @@ fetch(url)
   const populateFilteredRegion = () => {
     region_id = document.getElementById('filter-region')
     populateSelectElement(region_id, state.regions)
-    state.select_region_id = document.getElementById('filter-region').value
+    state.select_region_id = region_id.value
   }
 
   const populateFilteredNeonic = () => {
     neonics_region_id = document.getElementById('filter-neonic') 
     populateSelectElement(neonics_region_id, state.neonics)
-    state.select_region_neonic_id = document.getElementById('filter-neonic').value
+    state.select_region_neonic_id = neonics_region_id.value
 
     neonics_state_id = document.getElementById('filter-neonic-state') 
     populateSelectElement(neonics_state_id, state.neonics)
-    state.select_neonics_state_id= document.getElementById('filter-neonic-state').value
+    state.select_neonics_state_id = neonics_state_id.value
   }
 
   populateFilteredState = () => {
     states_id = document.getElementById('filter-state')
     populateSelectElement(states_id, state.states)
+    state.select_state_id = states_id.value
   }
 
   populateSelectElement = (select_id, state_data) => {
@@ -131,23 +141,67 @@ var trace3 = {
   type: 'scatter'
 };
 
-var data = [trace1, trace2, trace3];
 
 
-  const plotStateNeonic = () => {
-    console.log(state.years)
+
+  const plotStateScatters = () => {
+
+    outputs = []
+    values = ['totalprod', 'numcol']
+    //console.log(state.select_neonics_state_id)
+    //console.log(state.select_state_id)
+
+    values.forEach(value => {
+      console.log(value, state[value][state.select_state_id])
+      console.log(state.years)
+      // var trace = {
+      //   x: state.years,
+      //   y: state[value][state.select_state_id],
+      //   xaxis: 'x2',
+      //   yaxis: 'y2',
+      //   type: 'scatter'
+      // };
+      // outputs.push(trace)
+    })
+
+
+    var trace1 = {
+      x: state.years,
+      y: state['totalprod'][state.select_state_id],
+      xaxis: 'x2',
+      yaxis: 'y2',
+      type: 'scatter'
+    };
+
+    var trace2 = {
+      x: state.years,
+      y: state['numcol'][state.select_state_id],
+      xaxis: 'x2',
+      yaxis: 'y2',
+      type: 'scatter'
+    };
+
+
+    return outputs[trace1, trace2]
+  }
+
+  const renderLayoutStateScatters = () => {
+    var layout = {
+      grid: {
+          rows: 3,
+          columns: 1,
+          pattern: 'independent',
+          roworder: 'bottom to top'}
+      };
+      return layout
   }
 
 
-var layout = {
-grid: {
-    rows: 3,
-    columns: 1,
-    pattern: 'independent',
-    roworder: 'bottom to top'}
-};
 
-Plotly.newPlot('multi-line-state', data, layout);
+
+
+
+
 
 
 var data = [
