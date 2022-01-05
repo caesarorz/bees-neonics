@@ -18,10 +18,7 @@ fetch(url)
     populateFilteredState()
 
     Plotly.newPlot('multi-lineplot', plotRegionNeonic(), renderLayout(), {responsive: true});
-    
     Plotly.newPlot('multi-line-state', plotStateScatters(), renderLayoutStateScatters());
-
-
 })
 
   const storeDataAPI = (data) => {
@@ -120,7 +117,6 @@ fetch(url)
 
 
   const plotStateScatters = () => {
-
     var trace1 = {
       x: state.years,
       y: state.totalprod[state.select_state_id],
@@ -136,23 +132,37 @@ fetch(url)
       xaxis: 'x2',
       yaxis: 'y2',
       type: 'scatter',
-      name: 'Number of colonies'
+      name: 'Colonies'
     };
     
     var trace3 = {
       x: state.years,
-      y: [1000, 1100, 1200],
+      y: [],
       xaxis: 'x3',
       yaxis: 'y3',
       type: 'scatter',
-      name: 'Neonics'
+      name: `${state.select_neonics_state_id}`
     };
+
+    state.neonics_metrics.forEach(el => {
+      if (state.select_neonics_state_id === el.neonic) {
+        el.states_metrics.forEach(metric => {
+          if (metric.state === state.select_state_id) {
+            trace3.y = metric.metrics
+          }
+        })
+      }
+    })
 
     return [trace3, trace2, trace1]
   }
 
   const renderLayoutStateScatters = () => {
     return {
+      title: `Production, number of colonies and ${state.select_neonics_state_id} for ${state.select_state_id}`,
+      font: {size: 10},
+      width: 800,
+      height: 700,
       grid: {
           rows: 3,
           columns: 1,
@@ -162,3 +172,53 @@ fetch(url)
   }
 
 
+
+
+
+  var data = [{
+    type: "pie",
+    values: [2, 5, 3, 2.5],
+    labels: ["1", "2", "3", "4"],
+    texttemplate: "%{label}: %{value} (%{percent})",
+    textposition: "inside"
+  }];
+  
+  var layout = { 
+    title: 'Responsive to window\'s size!',
+    font: {size: 10},
+    width: 400,
+    height: 300,
+  };
+
+  Plotly.newPlot("subplots-state-pie", data, layout)
+
+
+
+
+
+
+
+  var trace1 = {
+    type: 'bar',
+    x: [1, 2, 3, 4],
+    y: [5, 10, 2, 8],
+    marker: {
+        color: '#C8A2C8',
+        line: {
+            width: 2.5
+        }
+    }
+  };
+  
+  var data = [ trace1 ];
+  
+  var layout = { 
+    title: 'Responsive to window\'s size!',
+    font: {size: 10},
+    width: 400,
+    height: 300,
+  };
+  
+  var config = {responsive: true}
+  
+  Plotly.newPlot('subplots-state-bar', data, layout );
