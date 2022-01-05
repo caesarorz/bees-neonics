@@ -18,11 +18,9 @@ fetch(url)
     populateFilteredState()
 
     Plotly.newPlot('multi-lineplot', plotRegionNeonic(), renderLayout(), {responsive: true});
-
-    //plotStateScatters()
-    renderLayoutStateScatters()
-    Plotly.newPlot('multi-line-state', plotStateScatters(), renderLayoutStateScatters(), {responsive: true}); //Plotly.newPlot('multi-line-state', data, layout);
     
+    Plotly.newPlot('multi-line-state', plotStateScatters(), renderLayoutStateScatters());
+
 
 })
 
@@ -119,101 +117,48 @@ fetch(url)
 
 
 
-var trace1 = {
-  x: [0, 1, 2],
-  y: [10, 11, 12],
-  type: 'scatter'
-};
-
-var trace2 = {
-  x: [2, 3, 4],
-  y: [100, 110, 120],
-  xaxis: 'x2',
-  yaxis: 'y2',
-  type: 'scatter'
-};
-
-var trace3 = {
-  x: [3, 4, 5],
-  y: [1000, 1100, 1200],
-  xaxis: 'x3',
-  yaxis: 'y3',
-  type: 'scatter'
-};
-
-
 
 
   const plotStateScatters = () => {
 
-    outputs = []
-    values = ['totalprod', 'numcol']
-    //console.log(state.select_neonics_state_id)
-    //console.log(state.select_state_id)
-
-    values.forEach(value => {
-      console.log(value, state[value][state.select_state_id])
-      console.log(state.years)
-      // var trace = {
-      //   x: state.years,
-      //   y: state[value][state.select_state_id],
-      //   xaxis: 'x2',
-      //   yaxis: 'y2',
-      //   type: 'scatter'
-      // };
-      // outputs.push(trace)
-    })
-
-
     var trace1 = {
       x: state.years,
-      y: state['totalprod'][state.select_state_id],
-      xaxis: 'x2',
-      yaxis: 'y2',
-      type: 'scatter'
+      y: state.totalprod[state.select_state_id],
+      xaxis: 'x1',
+      yaxis: 'y1',
+      type: 'scatter',
+      name: 'Production'
     };
-
+    
     var trace2 = {
       x: state.years,
-      y: state['numcol'][state.select_state_id],
+      y: state.numcol[state.select_state_id],
       xaxis: 'x2',
       yaxis: 'y2',
-      type: 'scatter'
+      type: 'scatter',
+      name: 'Number of colonies'
+    };
+    
+    var trace3 = {
+      x: state.years,
+      y: [1000, 1100, 1200],
+      xaxis: 'x3',
+      yaxis: 'y3',
+      type: 'scatter',
+      name: 'Neonics'
     };
 
-
-    return outputs[trace1, trace2]
+    return [trace3, trace2, trace1]
   }
 
   const renderLayoutStateScatters = () => {
-    var layout = {
+    return {
       grid: {
           rows: 3,
           columns: 1,
           pattern: 'independent',
           roworder: 'bottom to top'}
       };
-      return layout
   }
 
 
-
-
-
-
-
-
-
-var data = [
-  {
-      type: "pie",
-      values: [2, 5, 3, 2.5],
-      labels: ["R", "Python", "Java Script", "Matlab"],
-      texttemplate: "%{label}: %{value} (%{percent})",
-      textposition: "inside"
-  }
-];
-
-Plotly.newPlot("subplots-state-pie", data, config)
-
-// subplots-state-pie
