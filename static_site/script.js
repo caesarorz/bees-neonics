@@ -1,8 +1,8 @@
-state = {}
+const state = {}
 
 url = 'https://raw.githubusercontent.com/caesarorz/bees-neonics/main/data/dataset0.json'
 
-config = {response: true}
+const config = {response: true}
 
 fetch(url)
   .then((response) => {
@@ -17,8 +17,10 @@ fetch(url)
     populateFilteredNeonic()
     populateFilteredState()
 
+
     Plotly.newPlot('multi-lineplot', plotRegionNeonic(), renderLayout(), {responsive: true});
     Plotly.newPlot('multi-line-state', plotStateScatters(), renderLayoutStateScatters());
+    Plotly.newPlot('subplots-state-bar', yieldpercolbyStateBar(), renderLayoutBar());
 })
 
   const storeDataAPI = (data) => {
@@ -36,7 +38,7 @@ fetch(url)
 
 
   const plotRegionNeonic = () => {
-    outputs = []
+    const outputs = []
     state.neonics_metrics.forEach(el => {
       if (state.select_region_id === el.region & state.select_region_neonic_id === el.neonic) {
         el.states_metrics.forEach(state_metric => {
@@ -173,15 +175,15 @@ fetch(url)
 
 
 
-
-
-  var data = [{
-    type: "pie",
-    values: [2, 5, 3, 2.5],
-    labels: ["1", "2", "3", "4"],
-    texttemplate: "%{label}: %{value} (%{percent})",
-    textposition: "inside"
-  }];
+  neonicsbyStatePlotPie = () => {
+    return [{
+      type: "pie",
+      values: [2, 5, 3, 2.5],
+      labels: ["1", "2", "3", "4"],
+      texttemplate: "%{label}: %{value} (%{percent})",
+      textposition: "inside"
+    }];
+  }
   
   var layout = { 
     title: 'Responsive to window\'s size!',
@@ -190,35 +192,35 @@ fetch(url)
     height: 300,
   };
 
-  Plotly.newPlot("subplots-state-pie", data, layout)
+  Plotly.newPlot("subplots-state-pie", neonicsbyStatePlotPie(), layout)
 
 
 
 
 
+  yieldpercolbyStateBar = () => {
 
-
-  var trace1 = {
-    type: 'bar',
-    x: [1, 2, 3, 4],
-    y: [5, 10, 2, 8],
-    marker: {
-        color: '#C8A2C8',
-        line: {
-            width: 2.5
-        }
+    console.log(state)
+    console.log(state['yieldpercol'])
+    return [{
+      type: 'bar',
+      x: state.years,
+      y: state.yieldpercol[state.select_state_id],
+      marker: {
+          color: '#C8A2C8',
+          line: {
+              width: 2.5
+          }
+      }
+    }]
+  }
+  
+  renderLayoutBar = () => {
+    return { 
+      title: 'Responsive to window\'s size!',
+      font: {size: 10},
+      width: 400,
+      height: 300,
     }
-  };
+  }
   
-  var data = [ trace1 ];
-  
-  var layout = { 
-    title: 'Responsive to window\'s size!',
-    font: {size: 10},
-    width: 400,
-    height: 300,
-  };
-  
-  var config = {responsive: true}
-  
-  Plotly.newPlot('subplots-state-bar', data, layout );
