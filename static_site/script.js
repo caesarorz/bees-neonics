@@ -18,9 +18,10 @@ fetch(url)
     populateFilteredState()
 
 
-    Plotly.newPlot('multi-lineplot', plotRegionNeonic(), renderLayout(), {responsive: true});
+    Plotly.newPlot('multi-lineplot', plotRegionNeonic(), renderLayout());
     Plotly.newPlot('multi-line-state', plotStateScatters(), renderLayoutStateScatters());
     Plotly.newPlot('subplots-state-bar', yieldpercolbyStateBar(), renderLayoutBar());
+    Plotly.newPlot("subplots-state-pie", neonicsbyStatePlotPie(), renderLayoutPie())
 })
 
   const storeDataAPI = (data) => {
@@ -116,8 +117,6 @@ fetch(url)
 
 
 
-
-
   const plotStateScatters = () => {
     var trace1 = {
       x: state.years,
@@ -174,34 +173,60 @@ fetch(url)
   }
 
 
+  document.getElementById('filter-state').addEventListener("change", function(e){
+    state.select_state_id = e.target.value
+    Plotly.newPlot('multi-line-state', plotStateScatters(), renderLayoutStateScatters());
+  });
+
+  document.getElementById('filter-neonic-state').addEventListener("change", function(e){
+    state.select_neonics_state_id = e.target.value
+    Plotly.newPlot('multi-line-state', plotStateScatters(), renderLayoutStateScatters());
+  });
+
+
 
   neonicsbyStatePlotPie = () => {
+    labels = []
+    values = []
+    state.neonics_metrics.forEach(el => {
+        el.states_metrics.forEach(state_metric => {
+          if(state.select_state_id == state_metric.state) {
+            metrics = state_metric.metrics.filter(e => typeof e === 'number').reduce((a, b) => a + b, 0).toFixed(1);
+            
+            labels.push(el.neonic)
+            values.push(metrics)
+          }
+        })
+    })
+
     return [{
       type: "pie",
-      values: [2, 5, 3, 2.5],
-      labels: ["1", "2", "3", "4"],
-      texttemplate: "%{label}: %{value} (%{percent})",
+      values: values,
+      labels: labels,
+      texttemplate: "%{percent}",
       textposition: "inside"
     }];
   }
   
-  var layout = { 
-    title: 'Responsive to window\'s size!',
-    font: {size: 10},
-    width: 400,
-    height: 300,
-  };
 
-  Plotly.newPlot("subplots-state-pie", neonicsbyStatePlotPie(), layout)
+
+
+  renderLayoutPie = () => {
+    return { 
+      title: `Neonics for ${state.select_state_id}`,
+      font: {size: 10},
+      width: 475,
+      height: 350,
+    };
+  }
+
+
 
 
 
 
 
   yieldpercolbyStateBar = () => {
-
-    console.log(state)
-    console.log(state['yieldpercol'])
     return [{
       type: 'bar',
       x: state.years,
@@ -219,8 +244,11 @@ fetch(url)
     return { 
       title: 'Responsive to window\'s size!',
       font: {size: 10},
-      width: 400,
-      height: 300,
+      width: 475,
+      height: 350,
     }
   }
   
+  
+  console.log(state)
+  console.log(state['yieldpercol'])
