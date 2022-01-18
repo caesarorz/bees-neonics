@@ -12,6 +12,7 @@ fetch(url)
     data = JSON.parse(data)
 
     storeDataAPI(data) // store data locally 
+    getStoreDataAPI(data)
 
     populateFilteredRegion()
     populateFilteredNeonic()
@@ -37,6 +38,10 @@ fetch(url)
     state.yieldpercol = data.yieldpercol
   }
 
+
+  const getStoreDataAPI = (data) => {
+    return data
+  }
 
   const plotRegionNeonic = () => {
     const outputs = []
@@ -121,6 +126,15 @@ fetch(url)
     var trace1 = {
       x: state.years,
       y: state.totalprod[state.select_state_id],
+      mode: 'lines+markers+text',
+      name: 'Lines, Markers and Text',
+      text: ['Production'],
+      textposition: 'top right',
+      textfont: {
+        family: 'sans serif',
+        size: 18,
+        color: '#1f77b4'
+      },
       xaxis: 'x1',
       yaxis: 'y1',
       type: 'scatter',
@@ -130,6 +144,15 @@ fetch(url)
     var trace2 = {
       x: state.years,
       y: state.numcol[state.select_state_id],
+      mode: 'lines+markers+text',
+      name: 'Lines, Markers and Text',
+      text: ['Number of Colonies'],
+      textposition: 'top right',
+      textfont: {
+        family: 'sans serif',
+        size: 18,
+        color: '#1f77b4'
+      },
       xaxis: 'x2',
       yaxis: 'y2',
       type: 'scatter',
@@ -139,6 +162,15 @@ fetch(url)
     var trace3 = {
       x: state.years,
       y: [],
+      mode: 'lines+markers+text',
+      name: 'Lines, Markers and Text',
+      text: ['', '', '', '', '', '', '', `${state.select_neonics_state_id}`],
+      textposition: 'top right',
+      textfont: {
+        family: 'sans serif',
+        size: 18,
+        color: '#1f77b4'
+      },
       xaxis: 'x3',
       yaxis: 'y3',
       type: 'scatter',
@@ -164,6 +196,7 @@ fetch(url)
       font: {size: 10},
       width: 800,
       height: 700,
+      showlegend: false,
       grid: {
           rows: 3,
           columns: 1,
@@ -189,14 +222,15 @@ fetch(url)
     labels = []
     values = []
     state.neonics_metrics.forEach(el => {
+      if(el.neonic !== 'nAllNeonic') {
         el.states_metrics.forEach(state_metric => {
           if(state.select_state_id == state_metric.state) {
             metrics = state_metric.metrics.filter(e => typeof e === 'number').reduce((a, b) => a + b, 0).toFixed(1);
-            
             labels.push(el.neonic)
             values.push(metrics)
           }
         })
+      }
     })
 
     return [{
@@ -249,6 +283,10 @@ fetch(url)
     }
   }
   
+
+
+  printDta = () => {
+    data = getStoreDataAPI()
+  }
   
-  console.log(state)
-  console.log(state['yieldpercol'])
+
