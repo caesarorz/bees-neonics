@@ -1,4 +1,5 @@
-const state = {}
+var state = {}
+var thedata = {}
 
 url = 'https://raw.githubusercontent.com/caesarorz/bees-neonics/main/data/dataset0.json'
 
@@ -10,19 +11,18 @@ fetch(url)
   })
   .then(data => {
     data = JSON.parse(data)
-
+    thedata = data
     storeDataAPI(data) // store data locally 
-    getStoreDataAPI(data)
+
 
     populateFilteredRegion()
     populateFilteredNeonic()
     populateFilteredState()
 
-
-    Plotly.newPlot('multi-lineplot', plotRegionNeonic(), renderLayout());
-    Plotly.newPlot('multi-line-state', plotStateScatters(), renderLayoutStateScatters());
-    Plotly.newPlot('subplots-state-bar', yieldpercolbyStateBar(), renderLayoutBar());
-    Plotly.newPlot("subplots-state-pie", neonicsbyStatePlotPie(), renderLayoutPie())
+    Plotly.newPlot('multi-lineplot', plotRegionNeonic(), renderLayout(), {responsive: true});
+    Plotly.newPlot('multi-line-state', plotStateScatters(), renderLayoutStateScatters(), {responsive: true});
+    Plotly.newPlot('subplots-state-bar', yieldpercolbyStateBar(), renderLayoutBar(), {responsive: true});
+    Plotly.newPlot("subplots-state-pie", neonicsbyStatePlotPie(), renderLayoutPie(), {responsive: true})
 })
 
   const storeDataAPI = (data) => {
@@ -40,11 +40,12 @@ fetch(url)
 
 
   const getStoreDataAPI = (data) => {
-    return data
+    return data.states
   }
 
   const plotRegionNeonic = () => {
     const outputs = []
+
     state.neonics_metrics.forEach(el => {
       if (state.select_region_id === el.region & state.select_region_neonic_id === el.neonic) {
         el.states_metrics.forEach(state_metric => {
@@ -63,7 +64,7 @@ fetch(url)
 
   const renderLayout = () => {
     var layout = {
-      //showlegend: false,
+      showlegend: true,
       title: `${state.select_region_id} Region for ${state.select_region_neonic_id}`,
       xaxis: {
         title: 'Years',
@@ -84,6 +85,7 @@ fetch(url)
     state.select_region_id = region_id.value
   }
 
+
   const populateFilteredNeonic = () => {
     neonics_region_id = document.getElementById('filter-neonic') 
     populateSelectElement(neonics_region_id, state.neonics)
@@ -94,13 +96,15 @@ fetch(url)
     state.select_neonics_state_id = neonics_state_id.value
   }
 
-  populateFilteredState = () => {
+
+  const populateFilteredState = () => {
     states_id = document.getElementById('filter-state')
     populateSelectElement(states_id, state.states)
     state.select_state_id = states_id.value
   }
 
-  populateSelectElement = (select_id, state_data) => {
+
+  const populateSelectElement = (select_id, state_data) => {
     state_data.forEach(el => {
       var option = document.createElement("OPTION");  
       var textnode = document.createTextNode(el); 
@@ -128,7 +132,7 @@ fetch(url)
       y: state.totalprod[state.select_state_id],
       mode: 'lines+markers+text',
       name: 'Lines, Markers and Text',
-      text: ['Production'],
+      text: ['','','','','','','Production'],
       textposition: 'top right',
       textfont: {
         family: 'sans serif',
@@ -146,7 +150,7 @@ fetch(url)
       y: state.numcol[state.select_state_id],
       mode: 'lines+markers+text',
       name: 'Lines, Markers and Text',
-      text: ['Number of Colonies'],
+      text: ['','','','','','','Number of Colonies'],
       textposition: 'top right',
       textfont: {
         family: 'sans serif',
@@ -193,9 +197,9 @@ fetch(url)
   const renderLayoutStateScatters = () => {
     return {
       title: `Production, number of colonies and ${state.select_neonics_state_id} for ${state.select_state_id}`,
-      font: {size: 10},
-      width: 800,
-      height: 700,
+      font: {size: 12},
+    //   width: 800,
+    //   height: 700,
       showlegend: false,
       grid: {
           rows: 3,
@@ -209,6 +213,8 @@ fetch(url)
   document.getElementById('filter-state').addEventListener("change", function(e){
     state.select_state_id = e.target.value
     Plotly.newPlot('multi-line-state', plotStateScatters(), renderLayoutStateScatters());
+    Plotly.newPlot("subplots-state-pie", neonicsbyStatePlotPie(), renderLayoutPie())
+    Plotly.newPlot('subplots-state-bar', yieldpercolbyStateBar(), renderLayoutBar());
   });
 
   document.getElementById('filter-neonic-state').addEventListener("change", function(e){
@@ -221,8 +227,9 @@ fetch(url)
   neonicsbyStatePlotPie = () => {
     labels = []
     values = []
+
     state.neonics_metrics.forEach(el => {
-      if(el.neonic !== 'nAllNeonic') {
+      if(el.neonic !== 'Allneonic') {
         el.states_metrics.forEach(state_metric => {
           if(state.select_state_id == state_metric.state) {
             metrics = state_metric.metrics.filter(e => typeof e === 'number').reduce((a, b) => a + b, 0).toFixed(1);
@@ -248,9 +255,9 @@ fetch(url)
   renderLayoutPie = () => {
     return { 
       title: `Neonics for ${state.select_state_id}`,
-      font: {size: 10},
-      width: 475,
-      height: 350,
+      font: {size: 12},
+    //   width: 475,
+    //   height: 350,
     };
   }
 
@@ -276,17 +283,41 @@ fetch(url)
   
   renderLayoutBar = () => {
     return { 
-      title: 'Responsive to window\'s size!',
-      font: {size: 10},
-      width: 475,
-      height: 350,
+      title: `Colony yield for ${state.select_state_id}`,
+      font: {size: 12},
+    //   width: 475,
+    //   height: 350,
     }
   }
   
 
 
-  printDta = () => {
-    data = getStoreDataAPI()
-  }
-  
 
+
+  //
+
+  document.getElementById("pills-profile-tab").addEventListener("click", function() {
+
+    var setHeight, setWidth;
+    var height = window.innerHeight;
+    var width = window.innerWidth;
+  
+  if (window.innerWidth <= 768){
+    setWidth = width-(width/2)*0.5
+    setHeight = setWidth //height-(height/2)*0.009
+  } else {
+    setHeight = setWidth //(height/2)-(height/2)*0.037;
+    setWidth = (width/2)-(width/2)*0.037;
+  }
+//   console.log(width, height)
+//   console.log(setWidth, setHeight)
+  
+  
+    var update = {
+      width: setWidth,  
+      height: setHeight
+    };
+    
+    // Plotly.relayout('multi-line-state', update);
+    // Plotly.relayout('line', update);
+  });
