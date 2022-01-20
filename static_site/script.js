@@ -1,7 +1,7 @@
 var state = {}
 var thedata = {}
 
-url = 'https://raw.githubusercontent.com/caesarorz/bees-neonics/main/data/dataset0.json'
+url = 'https://raw.githubusercontent.com/caesarorz/bees-neonics/main/data/dataset.json'
 
 const config = {response: true}
 
@@ -283,7 +283,7 @@ fetch(url)
   
   renderLayoutBar = () => {
     return { 
-      title: `Colony yield for ${state.select_state_id}`,
+      title: `Honey yield per colonies state: ${state.select_state_id}`,
       font: {size: 12},
     //   width: 475,
     //   height: 350,
