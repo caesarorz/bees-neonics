@@ -12,7 +12,7 @@ fetch(url)
   .then(data => {
     data = JSON.parse(data)
     thedata = data
-    storeDataAPI(data) // store data locally 
+    storeDataAPI(data)
 
 
     populateFilteredRegion()
@@ -198,8 +198,6 @@ fetch(url)
     return {
       title: `Production, number of colonies and ${state.select_neonics_state_id} for ${state.select_state_id}`,
       font: {size: 12},
-    //   width: 800,
-    //   height: 700,
       showlegend: false,
       grid: {
           rows: 3,
@@ -256,8 +254,6 @@ fetch(url)
     return { 
       title: `Neonics for ${state.select_state_id}`,
       font: {size: 12},
-    //   width: 475,
-    //   height: 350,
     };
   }
 
@@ -285,17 +281,13 @@ fetch(url)
     return { 
       title: `Honey yield per colonies state: ${state.select_state_id}`,
       font: {size: 12},
-    //   width: 475,
-    //   height: 350,
+
     }
   }
   
-
-
-
-
-  //
-
+/*
+resize linear plor by region, since issues arose when deploying
+*/
   document.getElementById("pills-profile-tab").addEventListener("click", function() {
 
     var setHeight, setWidth;
@@ -306,18 +298,14 @@ fetch(url)
     setWidth = width-(width/2)*0.5
     setHeight = setWidth //height-(height/2)*0.009
   } else {
-    setHeight = setWidth //(height/2)-(height/2)*0.037;
+    setHeight = (height/2)-(height/2)*0.037;
     setWidth = (width/2)-(width/2)*0.037;
   }
-//   console.log(width, height)
-//   console.log(setWidth, setHeight)
-  
-  
     var update = {
-      width: setWidth,  
+      width: width,  
       height: setHeight
     };
     
-    // Plotly.relayout('multi-line-state', update);
-    // Plotly.relayout('line', update);
+    Plotly.relayout('multi-lineplot', update);
+    // Plotly.relayout('line', update); indicates more plots can be resize
   });

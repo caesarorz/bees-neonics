@@ -22,3 +22,7 @@
   text-align: justify;
   text-justify: inter-word;
 }
+
+.form-label {
+    margin-top: 20px;
+}
