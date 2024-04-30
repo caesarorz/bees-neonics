@@ -36,16 +36,13 @@
         </div>
       </nav>
 
+      <h3 class="p-state-select">Neonics and Bees</h3>
       <div class="tab-content" id="pills-tabContent">
         <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
 
           <div class="row" id="selects-state">
-            <p class="p-state-select">
-              This section compares the amount of neonics against production and number of colonies above.
-              Changing the state bring us the linear comparison. The pie chart gives us neonics usage for a
-              specific state. Below the pie chart, a distribution of the amount of honey yield per year per colonies.
-            </p>
 
+            <p>Choose the state and the insecticide to find any insigth that you can discover.</p>
             <div class="col-6">
               <label for="filter-state" class="form-label">Select State</label>
               <select id="filter-state" class="form-select" aria-label=".form-select-sm example"></select>
@@ -59,22 +56,44 @@
           <div class="row">
             <div id='multi-line-state'></div>
           </div>
+          <div class="row">
+            <p class="p-state-select">
+              This section compares the amount of neonics usage against some parameters.
+              Changing the state and the insecticide brings us the linear comparison like amount of colonies, honey yielded vs per ton of neonics.
+            </p>
+          </div>
+
+          <hr>
 
           <div class="row">
             <div id='subplots-state-pie'></div>
           </div>
 
           <div class="row">
+            <p class="p-state-select">
+              The pie chart pictures and the insecticide present when a state is chosen.
+            </p>
+          </div>
+
+          <hr>
+
+          <div class="row">
             <div id='subplots-state-bar'></div>
           </div>
+
+          <div class="row">
+            <p class="p-state-select">
+              Finally, this bar char shows a trend of the amount of honey in a given state.
+            </p>
+          </div>
+
+
         </div>
 
 
         <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
 
-          <div class="row">
-            <p class="p-state-select">This linear graph depictures how the neonics pesticides usage skyrocket between 1995 to 2014 for the different regions.</p>
-          </div>
+
 
           <div class="row">
             <div class="col-6">
@@ -91,6 +110,13 @@
 
           <div class="row">
             <div id='multi-lineplot'></div>
+          </div>
+
+          <div class="row">
+            <p class="p-state-select">This linear graph depictures how the neonics pesticides usage skyrocket between 1995 to 2014 for the different regions. Filter out in the inputs above
+              by regiions and insecticide, or in the right-hand-side-colored filter by state.
+
+            </p>
           </div>
 
         </div>
