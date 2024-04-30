@@ -87,11 +87,11 @@ fetch(url)
 
 
   const populateFilteredNeonic = () => {
-    neonics_region_id = document.getElementById('filter-neonic') 
+    neonics_region_id = document.getElementById('filter-neonic')
     populateSelectElement(neonics_region_id, state.neonics)
     state.select_region_neonic_id = neonics_region_id.value
 
-    neonics_state_id = document.getElementById('filter-neonic-state') 
+    neonics_state_id = document.getElementById('filter-neonic-state')
     populateSelectElement(neonics_state_id, state.neonics)
     state.select_neonics_state_id = neonics_state_id.value
   }
@@ -106,10 +106,10 @@ fetch(url)
 
   const populateSelectElement = (select_id, state_data) => {
     state_data.forEach(el => {
-      var option = document.createElement("OPTION");  
-      var textnode = document.createTextNode(el); 
-      option.appendChild(textnode);  
-      select_id.appendChild(option);  
+      var option = document.createElement("OPTION");
+      var textnode = document.createTextNode(el);
+      option.appendChild(textnode);
+      select_id.appendChild(option);
     })
   }
 
@@ -144,7 +144,7 @@ fetch(url)
       type: 'scatter',
       name: 'Production'
     };
-    
+
     var trace2 = {
       x: state.years,
       y: state.numcol[state.select_state_id],
@@ -162,7 +162,7 @@ fetch(url)
       type: 'scatter',
       name: 'Colonies'
     };
-    
+
     var trace3 = {
       x: state.years,
       y: [],
@@ -246,12 +246,12 @@ fetch(url)
       textposition: "inside"
     }];
   }
-  
+
 
 
 
   renderLayoutPie = () => {
-    return { 
+    return {
       title: `Neonics for ${state.select_state_id}`,
       font: {size: 12},
     };
@@ -276,15 +276,15 @@ fetch(url)
       }
     }]
   }
-  
+
   renderLayoutBar = () => {
-    return { 
+    return {
       title: `Honey yield per colonies state: ${state.select_state_id}`,
       font: {size: 12},
 
     }
   }
-  
+
 /*
 resize linear plor by region, since issues arose when deploying
 */
@@ -293,7 +293,7 @@ resize linear plor by region, since issues arose when deploying
     var setHeight, setWidth;
     var height = window.innerHeight;
     var width = window.innerWidth;
-  
+
   if (window.innerWidth <= 768){
     setWidth = width-(width/2)*0.5
     setHeight = setWidth //height-(height/2)*0.009
@@ -302,10 +302,10 @@ resize linear plor by region, since issues arose when deploying
     setWidth = (width/2)-(width/2)*0.037;
   }
     var update = {
-      width: width,  
+      width: width,
       height: setHeight
     };
-    
-    Plotly.relayout('multi-lineplot', update);
+
+    // Plotly.relayout('multi-lineplot', update);
     // Plotly.relayout('line', update); indicates more plots can be resize
   });
