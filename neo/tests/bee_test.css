@@ -1,0 +1,28 @@
+#pills-profile-tab,#pills-contact-tab,#pills-home-tab {
+    padding-right: 15px;
+    border-left-width: 8px;
+    padding-left: 8px;
+}
+
+#pills-tab{
+    margin-top: 15px;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+    color: #fff;
+    background-color: #d2d3b9;
+}
+
+#selects-state {
+    margin-top: 20px;
+}
+
+.p-state-select{
+    margin-top: 20px;
+  text-align: justify;
+  text-justify: inter-word;
+}
+
+.form-label {
+    margin-top: 20px;
+}
